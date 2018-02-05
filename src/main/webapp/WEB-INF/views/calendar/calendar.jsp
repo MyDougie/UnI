@@ -27,7 +27,7 @@ $(document).ready(function() {
 				text: '+',
 				click: function(){
 					setDate();//set Date
-					$("#eventModal").modal('show');//show modal
+					$("#insertModal").modal('show');//show modal
 				}
 			}        	  
           },
@@ -53,7 +53,24 @@ $(document).ready(function() {
           editable: true,
           eventLimit: true,
           displayEventTime: false,
-          events: function(start, end, timezone, callback) {//load event
+          eventClick: function(calEvent, jsEvent, view) {//get Event
+		  				
+              var boardNo = calEvent.boardNo;
+          	$.ajax({
+          		url: '/uni/calendar/getEvent',
+          		dataType: 'json',
+          		data: "boardNo="+boardNo,
+          		success: function(data){
+          			alert("data : " + JSON.stringify(data.eventList));
+          		},
+          		error : function(data, msg){
+          			alert(data + " / " + msg);
+          		}
+          		
+          	});
+
+          },
+          events: function(start, end, timezone, callback) {//getEventList
               $.ajax({
                   url: '/uni/calendar/getEventList',
                   dataType: 'json',
@@ -63,6 +80,7 @@ $(document).ready(function() {
                       var events = [];
                       $.each(data.eventList, function(idx, event) {
                   			events.push({
+                  				boardNo: event.boardNo,
                                 title: event.title,
                                 start: event.startDate,
                                 end: event.endDate
@@ -86,7 +104,7 @@ $(document).ready(function() {
     });
     
   	//clear modal
-    $('#eventModal').on('hidden.bs.modal', function() {
+    $('#insertModal').on('hidden.bs.modal', function() {
     	$(this).find('form')[0].reset();
 	});
     
@@ -95,7 +113,7 @@ $(document).ready(function() {
     	var valid = invalidCheck();
     	if(valid==true){
 	    	$('#insertForm').submit();
-	    	$('#eventModal').modal('toggle');//close the modal
+	    	$('#insertModal').modal('toggle');//close the modal
     	}
     });
     
@@ -189,8 +207,8 @@ $(document).ready(function() {
 
 <div id='calendar'></div>
 
-<!-- Modal -->
-<div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+<!-- insert Modal -->
+<div class="modal fade" id="insertModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">

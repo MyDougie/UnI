@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import u.and.i.board.service.BoardService;
 import u.and.i.board.vo.BoardVo;
 import u.and.i.calendar.service.CalendarService;
 
@@ -45,9 +46,20 @@ public class CalendarController {
 		List<BoardVo> list = calendarService.getEventList(start, end);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("eventList", list);
-		System.out.println(list.size());
 		
 		return map;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/getEvent", method=RequestMethod.POST)
+	public BoardVo getEvent(HttpServletRequest request, HttpServletResponse response) {
+		int boardNo = Integer.parseInt(request.getParameter("boardNo"));
+		
+		BoardVo board = calendarService.getEvent(boardNo); 
+		
+		
+		
+		
 	}
 	
 }

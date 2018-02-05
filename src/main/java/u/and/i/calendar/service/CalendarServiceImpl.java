@@ -18,4 +18,9 @@ public class CalendarServiceImpl implements CalendarService {
 	public List<BoardVo> getEventList(String start, String end) {
 		return calendarDao.getEventList(start, end);
 	}
+
+	@Override
+	public BoardVo getEvent(int boardNo) {
+		return calendarDao.getEvent(boardNo);
+	}
 }

@@ -8,4 +8,6 @@ public interface CalendarService {
 
 	List<BoardVo> getEventList(String start, String end);
 
+	BoardVo getEvent(int boardNo);
+
 }

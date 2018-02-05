@@ -20,8 +20,9 @@ public class CalendarDaoImpl implements CalendarDao {
 	Connection conn = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
-	private final String GET_EVENT_LIST = "select * from board where (start_date >= ? and start_date <= ?) or (end_date >= ? and end_date <= ?)";
 	
+	private final String GET_EVENT_LIST = "select * from board where (start_date >= ? and start_date <= ?) or (end_date >= ? and end_date <= ?)";
+	private final String Get_EVENT = "";
 	
 	public List<BoardVo> getEventList(String start, String end) {
 		List<BoardVo> list = new ArrayList<BoardVo>();
@@ -53,5 +54,14 @@ public class CalendarDaoImpl implements CalendarDao {
 		}
 		
 		return list;
+	}
+
+
+	@Override
+	public BoardVo getEvent(int boardNo) {
+		
+		
+		
+		return null;
 	}
 }

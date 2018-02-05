@@ -9,4 +9,6 @@ public interface CalendarDao {
 
 	List<BoardVo> getEventList(String start, String end);
 
+	BoardVo getEvent(int boardNo);
+
 }
