@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 @Component
-public class UploadUtil {
+public class ImgUtil {
 
 
 	private static final String FILE_SEPARATOR = "//";
@@ -45,5 +45,21 @@ public class UploadUtil {
 		return fileName;
 	}
 	
+	public static File[] getImgList(String type, String subDir) {
+		String savePath = getSavePath(type, subDir);
+		System.out.println("savePath : " + savePath);
+		
+		File dateDir = new File(savePath);
+		
+		File fileList[] = dateDir.listFiles();
+		for(File f : fileList) {
+			System.out.println(f.getName());
+			System.out.println(f.length());
+			
+		}
+		
+		
+		return fileList;
+	}
 	
 }

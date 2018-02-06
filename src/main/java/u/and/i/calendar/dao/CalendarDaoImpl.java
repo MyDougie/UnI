@@ -22,7 +22,12 @@ public class CalendarDaoImpl implements CalendarDao {
 	ResultSet rs = null;
 	
 	private final String GET_EVENT_LIST = "select * from board where (start_date >= ? and start_date <= ?) or (end_date >= ? and end_date <= ?)";
-	private final String Get_EVENT = "";
+	private final String GET_EVENT = "select x.board_id, x.title, x.content, x.start_date, x.end_date, x.writer, x.img_path \r\n" + 
+			"from(select t.board_id, t.title, t.content, t.start_date, t.end_date, t.writer, t.img_path \r\n" + 
+			"    from(select b.board_id, b.title, b.content, b.start_date, b.end_date, b.writer, i.img_path \r\n" + 
+			"        from(board b left outer join board_img i on b.board_id = i.board_id)) t \r\n" + 
+			"    left outer join board_reply r on t.board_id = r.board_id) x\r\n" + 
+			"where x.board_id = ?";
 	
 	public List<BoardVo> getEventList(String start, String end) {
 		List<BoardVo> list = new ArrayList<BoardVo>();
@@ -59,9 +64,42 @@ public class CalendarDaoImpl implements CalendarDao {
 
 	@Override
 	public BoardVo getEvent(int boardNo) {
+		BoardVo board = new BoardVo();
+		List<String> fileNameList = null;
 		
+		try {
+			conn = DbUtil.getConnection();
+			ps = conn.prepareStatement(GET_EVENT);
+			ps.setInt(1, boardNo);
+
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				if(board.getFileNameLIst()==null || board.getFileNameLIst().size()==0) {
+					fileNameList = new ArrayList<String>();
+					
+					board.setBoardNo(rs.getInt("board_id"));
+					board.setTitle(rs.getString("title"));
+					board.setContent(rs.getString("content"));
+					board.setStartDate(rs.getString("start_date"));
+					board.setEndDate(rs.getString("end_date"));
+					board.setWriter(rs.getString("writer"));
+					
+					fileNameList.add(rs.getString("img_path"));
+					board.setFileNameList(fileNameList);
+					
+				}else {
+					fileNameList.add(rs.getString("img_path"));
+					
+				}
+			}
+			board.setFileNameList(fileNameList);
+					
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			DbUtil.closeConnection(rs, ps, conn);
+		}
 		
-		
-		return null;
+		return board;
 	}
 }

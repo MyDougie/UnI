@@ -61,7 +61,7 @@ $(document).ready(function() {
           		dataType: 'json',
           		data: "boardNo="+boardNo,
           		success: function(data){
-          			alert("data : " + JSON.stringify(data.eventList));
+          			alert("data : " + JSON.stringify(data.event));
           		},
           		error : function(data, msg){
           			alert(data + " / " + msg);

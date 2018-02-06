@@ -13,6 +13,7 @@ public class BoardVo {
 	private String writer;
 	private String regDate;
 	private List<MultipartFile> files;
+	private List<String> fileNameList;
 	
 	public BoardVo() {}
 	public BoardVo(int boardNo, String title, String content, String startDate, String endDate, String writer,
@@ -27,7 +28,19 @@ public class BoardVo {
 		this.regDate = regDate;
 	}
 	public BoardVo(int boardNo, String title, String content, String startDate, String endDate, String writer,
-			String regDate, List<MultipartFile> files) {
+			String regDate, List<String> fileNameList) {
+		super();
+		this.boardNo = boardNo;
+		this.title = title;
+		this.content = content;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.writer = writer;
+		this.regDate = regDate;
+		this.fileNameList = fileNameList;
+	}
+	public BoardVo(int boardNo, String title, String content, String startDate, String endDate, String writer,
+			String regDate, List<MultipartFile> files, List<String> fileNameList) {
 		super();
 		this.boardNo = boardNo;
 		this.title = title;
@@ -37,7 +50,9 @@ public class BoardVo {
 		this.writer = writer;
 		this.regDate = regDate;
 		this.files = files;
+		this.fileNameList = fileNameList;
 	}
+	
 	public int getBoardNo() {
 		return boardNo;
 	}
@@ -86,11 +101,20 @@ public class BoardVo {
 	public void setFiles(List<MultipartFile> files) {
 		this.files = files;
 	}
+	public List<String> getFileNameLIst() {
+		return fileNameList;
+	}
+	public void setFileNameList(List<String> fileNameList) {
+		this.fileNameList = fileNameList;
+	}
 	@Override
 	public String toString() {
 		return "BoardVo [boardNo=" + boardNo + ", title=" + title + ", content=" + content + ", startDate=" + startDate
-				+ ", endDate=" + endDate + ", writer=" + writer + ", regDate=" + regDate + ", files =" + files + "]";
+				+ ", endDate=" + endDate + ", writer=" + writer + ", regDate=" + regDate + ", files=" + files
+				+ ", fileNameList=" + fileNameList + "]";
 	}
+	
+	
 	
 	
 }

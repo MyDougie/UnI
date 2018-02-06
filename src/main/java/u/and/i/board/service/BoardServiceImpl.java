@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import u.and.i.board.dao.BoardDao;
 import u.and.i.board.vo.BoardVo;
-import u.and.i.util.UploadUtil;
+import u.and.i.util.ImgUtil;
 
 @Service
 public class BoardServiceImpl implements BoardService{
@@ -38,7 +38,7 @@ public class BoardServiceImpl implements BoardService{
 				
 				//1. 파일 upload
 				String subDir = board.getStartDate().replaceAll("-", "//");// 2017//09//30
-				fileName = UploadUtil.uploadFile("board", subDir, file);//type, subDir, file
+				fileName = ImgUtil.uploadFile("board", subDir, file);//type, subDir, file
 				
 				//2. DB에 파일이름 저장.
 				boardDao.insertBoardImg(lastBoardNo, fileName); 
