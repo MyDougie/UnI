@@ -59,11 +59,12 @@ public class CalendarController {
 		
 		//1. DB에서 imgFileNameList가져오기
 		BoardVo board = calendarService.getEvent(boardNo); 
-		map.put("event", board);
+		map.put("board", board);
+		map.put("type", "board");
 		
 		//2. 실제 저장된 경로에서 파일 가져오기.
-		String subDir = board.getStartDate().replaceAll("-", "//");
-		map.put("imgList", ImgUtil.getImgList("board", subDir));
+		//String subDir = board.getStartDate().replaceAll("-", "//");
+		//map.put("imgList", ImgUtil.getImgList("board", subDir));
 		
 		return map;
 	}

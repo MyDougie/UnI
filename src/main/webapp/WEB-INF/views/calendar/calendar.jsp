@@ -1,5 +1,7 @@
+<%@page import="u.and.i.board.vo.BoardVo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -27,7 +29,7 @@ $(document).ready(function() {
 				text: '+',
 				click: function(){
 					setDate();//set Date
-					$("#insertModal").modal('show');//show modal
+					$("#insertModal").modal('show');//show insertModal
 				}
 			}        	  
           },
@@ -61,7 +63,16 @@ $(document).ready(function() {
           		dataType: 'json',
           		data: "boardNo="+boardNo,
           		success: function(data){
-          			alert("data : " + JSON.stringify(data.event));
+          			//alert("data : " + JSON.stringify(data.board));
+          			var board = data.board;
+          			var img = "";
+          			$("#getEventModal").modal('show');
+          			$('#eventForm #startDate').val(board.startDate);
+          			$('#eventForm #endDate').val(board.endDate);
+          			$('#eventForm #title').val(board.title);
+          			$('#eventForm #content').val(board.content);
+          			imgLoad(data.type, board);
+          			
           		},
           		error : function(data, msg){
           			alert(data + " / " + msg);
@@ -117,6 +128,22 @@ $(document).ready(function() {
     	}
     });
     
+    $('#updateBtn').click(function(){
+    	alert($(this).text());
+    	if($(this).text()=="Update"){
+	    	$('#eventForm #title').attr('readonly', false);
+	    	$('#eventForm #content').attr('readonly', false);
+	    	$('#eventForm #title').focus();
+	    	$(this).text('Update Complete');
+    	}else{
+	    	$('#eventForm #title').attr('readonly', true);
+	    	$('#eventForm #content').attr('readonly', true);
+    		$(this).text('Update');
+    		
+    		//location.href = "${pageContext.request.contextPath}/calendar/getEvent?boardNo=" + ${board.boardNo};
+    	}
+    });
+    
     function setDate(){
 		var today = new Date();
 		var dd = today.getDate();
@@ -161,9 +188,24 @@ $(document).ready(function() {
         }
         	
         return true;
-       
     }
     
+    function imgLoad(type, board){
+    	if(board.fileNameList[0] == null){
+    		$('#imgList').parent().hide();
+    		return;
+    	}
+		$('#imgList').parent().show();
+	    $('#imgList').empty();
+    	
+    	for(var i=0; i<board.fileNameList.length; i++){
+    		var startDate = board.startDate.split("-").join("/"); // replaceAll
+	    	var node = document.createElement("img");
+	  		node.setAttribute("src", "test/" + type + "/" + startDate  +"/" + board.fileNameList[i]); 
+	  		node.setAttribute("style", "width:100%;");
+	    	document.getElementById("imgList").appendChild(node);
+    	}
+    }
     
 	
   });
@@ -204,11 +246,14 @@ $(document).ready(function() {
 		</div>
 	</div>
 </div>
-
+<img alt="" src="">
 <div id='calendar'></div>
 
-<!-- insert Modal -->
-<div class="modal fade" id="insertModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+<jsp:include page="insertCalendarForm.jsp"/>
+
+<jsp:include page="getEventForm.jsp"/>
+
+<%-- <div class="modal fade" id="insertModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -253,7 +298,7 @@ $(document).ready(function() {
       </div>
     </div>
   </div>
-</div>
+</div> --%>
   
 
 <script src='${pageContext.request.contextPath}/resources/js/moment.min.js'></script>

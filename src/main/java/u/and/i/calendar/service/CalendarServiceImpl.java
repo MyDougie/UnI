@@ -26,7 +26,7 @@ public class CalendarServiceImpl implements CalendarService {
 		System.out.println(board.getContent());
 		System.out.println(board.getStartDate());
 		System.out.println(board.getEndDate());
-		List<String> fileNameList = board.getFileNameLIst();
+		List<String> fileNameList = board.getFileNameList();
 		for(String fileName : fileNameList) {
 			System.out.println(fileName);
 		}

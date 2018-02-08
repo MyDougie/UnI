@@ -74,7 +74,7 @@ public class CalendarDaoImpl implements CalendarDao {
 
 			rs = ps.executeQuery();
 			while(rs.next()) {
-				if(board.getFileNameLIst()==null || board.getFileNameLIst().size()==0) {
+				if(board.getFileNameList()==null || board.getFileNameList().size()==0) {
 					fileNameList = new ArrayList<String>();
 					
 					board.setBoardNo(rs.getInt("board_id"));

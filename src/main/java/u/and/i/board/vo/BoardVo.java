@@ -101,7 +101,7 @@ public class BoardVo {
 	public void setFiles(List<MultipartFile> files) {
 		this.files = files;
 	}
-	public List<String> getFileNameLIst() {
+	public List<String> getFileNameList() {
 		return fileNameList;
 	}
 	public void setFileNameList(List<String> fileNameList) {
